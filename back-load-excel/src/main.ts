@@ -11,7 +11,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true }),
   );
-
+  app.enableCors();
   // Register @fastify/multipart
   await app.register(multipart, {
     attachFieldsToBody: true,

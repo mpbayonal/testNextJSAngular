@@ -1,0 +1,14 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <label for="name">Name: </label>
+  <input id="name" type="text" formControlName="name" required />
+  <label for="surname">Surname: </label>
+  <input id="surname" type="text" formControlName="surname" required />
+  <label for="surname">More Information: </label>
+  <input type="file" id="file" (change)="detectFiles($event)" accept=".xlsx, .xls" required />
+
+  <p>Complete the form to enable button.</p>
+  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+</form>
+<hr />
+<p>Form Value: {{ profileForm.value | json }}</p>
+<p>Form Status: {{ profileForm.status }}</p>

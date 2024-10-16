@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'front-load-excel-form'`, () => {
+  it(`should have as title 'angular-16-crud'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('front-load-excel-form');
+    expect(app.title).toEqual('angular-16-crud');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('front-load-excel-form app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-16-crud app is running!');
   });
 });
