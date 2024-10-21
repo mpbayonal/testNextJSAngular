@@ -11,10 +11,10 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./add-profile.component.css'],
 })
 export class AddProfileComponent {
+  fileToUpload: File | null = null;
   profileForm = this.formBuilder.group({
     name: [''],
     surname: [''],
-    file: [''],
   });
 
   constructor(
@@ -23,38 +23,26 @@ export class AddProfileComponent {
   ) {}
 
   onSubmit() {
-    console.log(this.profileForm.value);
     const data = {
       name: this.profileForm.value.name,
       surname: this.profileForm.value.surname,
-      file: this.profileForm.value.file,
+      file: this.fileToUpload,
     };
     this.profileService.create(data).subscribe({
       next: (res) => {
-        console.log(res);
+        if (res.statusCode === 200 && res.data) {
+          var dataString = localStorage.getItem('data');
+          var parsedData = dataString ? JSON.parse(dataString) : [];
+          let parsedData2 = parsedData.concat([res.data]);
+          localStorage.setItem('data', JSON.stringify(parsedData2));
+        }
       },
       error: (e: any) => console.error(e),
     });
     console.warn(this.profileForm.value);
   }
 
-  detectFiles(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const files: FileList | null = input.files;
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file: File = files[i];
-        const reader: FileReader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-          this.file.push(
-            this.createItem({
-              file,
-              url: e.target?.result as string, // Base64 string for preview image
-            })
-          );
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+  onFileChanged(event: any) {
+    this.fileToUpload = event.target.files.item(0);
   }
 }

@@ -1,12 +1,21 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-  <label for="name">Name: </label>
-  <input id="name" type="text" formControlName="name" required />
-  <label for="surname">Surname: </label>
-  <input id="surname" type="text" formControlName="surname" required />
-  <label for="surname">More Information: </label>
-  <input type="file" id="file" (change)="detectFiles($event)" accept=".xlsx, .xls" required />
+  <table class="example-full-width" cellspacing="0"><tr>
+    <td><mat-form-field >
+      <mat-label for="name">Name:</mat-label>
 
-  <p>Complete the form to enable button.</p>
+        <input matInput id="name" type="text" formControlName="name" required />
+    </mat-form-field></td>
+    <td><mat-form-field >
+      <mat-label for="surname">Surname</mat-label>
+      <input matInput id="surname" type="text" formControlName="surname" required />
+    </mat-form-field></td>
+  </tr></table>
+
+  <input
+    type="file"
+    id="file"
+    (change)="onFileChanged($event)"
+  />
   <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 </form>
 <hr />
