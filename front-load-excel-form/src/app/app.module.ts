@@ -11,6 +11,7 @@ import { AddProfileComponent } from './components/add-profile/add-profile.compon
 import { ProfilesListComponent } from './components/profile-list/profile-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [AppComponent, AddProfileComponent, ProfilesListComponent],
@@ -25,6 +26,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatInputModule,
     BrowserAnimationsModule,
     MatSortModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

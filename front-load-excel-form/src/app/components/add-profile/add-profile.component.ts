@@ -12,6 +12,7 @@ import { Validators } from '@angular/forms';
 })
 export class AddProfileComponent {
   fileToUpload: File | null = null;
+  mesaage: string = '';
   profileForm = this.formBuilder.group({
     name: [''],
     surname: [''],
@@ -35,6 +36,11 @@ export class AddProfileComponent {
           var parsedData = dataString ? JSON.parse(dataString) : [];
           let parsedData2 = parsedData.concat([res.data]);
           localStorage.setItem('data', JSON.stringify(parsedData2));
+        }
+        if (res.message) {
+          this.mesaage = res.message;
+        } else {
+          this.mesaage = 'There are an error in the server';
         }
       },
       error: (e: any) => console.error(e),
