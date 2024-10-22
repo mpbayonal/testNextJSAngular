@@ -1,13 +1,24 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Res,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CandidateService } from './candidate.service';
-import { FastifyRequest, FastifyReply } from 'fastify';
-import { Candidate } from './candidate.interface';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('candidate')
 export class CandidateController {
   constructor(private candidateService: CandidateService) {}
   @Post('load')
-  async updateProfilePic(@Res() res, @Body() body) {
-    return this.candidateService.create(res, body);
+  @UseInterceptors(FileInterceptor('file'))
+  async updateProfilePic(
+    @Res() res,
+    @Body() body,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.candidateService.create(res, body, file);
   }
 }

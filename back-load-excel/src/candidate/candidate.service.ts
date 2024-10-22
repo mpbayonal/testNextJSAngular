@@ -1,4 +1,4 @@
-import { Injectable, Body, Res } from '@nestjs/common';
+import { Injectable, Body, Res, UploadedFile } from '@nestjs/common';
 import { AppResponseDto, Candidate } from './candidate.interface';
 import * as XLSX from 'xlsx';
 
@@ -6,18 +6,22 @@ import * as XLSX from 'xlsx';
 export class CandidateService {
   private readonly cats: Candidate[] = [];
 
-  async create(@Res() res, @Body() body): Promise<Candidate> {
+  async create(
+    @Res() res,
+    @Body() body,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<Candidate> {
     try {
-      if (!body?.file?.filename?.match(/\.(xls|xlsx)$/)) {
+      if (!file?.originalname?.match(/\.(xls|xlsx)$/)) {
         res.send(new AppResponseDto(400, {}, 'Invalid file format'));
         return;
-      }
-      const uploadValue = await body?.file?.toBuffer(); // access files
-      const nameValue = body?.name?.value;
-      const surnameValue = body?.surname?.value; // // other fields
-      const workbook = XLSX.read(uploadValue);
+      } // access files
+      const nameValue = body?.name;
+      const surnameValue = body?.surname; // // other fields
+      const workbook = XLSX.read(file.buffer, { type: 'buffer' });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const data = XLSX.utils.sheet_to_json(worksheet);
+      console.log(body);
       const candidate: Candidate = {
         name: nameValue,
         surname: surnameValue,
